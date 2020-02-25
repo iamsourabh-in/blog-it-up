@@ -1,0 +1,162 @@
+﻿@model Blog.Web.Models.BlogViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+
+
+<!-- Include the Quill library -->
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card text-black bg-light mt-5" style="border: 2px solid lightsalmon;">
+            <div class="card-header">
+                <h2>Create</h2>
+            </div>
+            <div class="card-body">
+                <form onsubmit="onsubmit()" id="blogForm" asp-action="Create" enctype="multipart/form-data">
+
+                    <div class="form-group">
+                        <label asp-for="Title" class="control-label"></label>
+                        <input asp-for="Title" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SubTitle" class="control-label"></label>
+                        <input asp-for="SubTitle" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Category" class="control-label"></label>
+                        <select asp-for="Category" asp-items="@(new SelectList(Model.Categories,"Name","Name"))" class="form-control">
+                            <option value="0">Default select</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group-prepend">
+                            <label asp-for="ImageFile" class="control-label"></label>
+                        </div>
+                        <div class="custom-file">
+                            <input asp-for="ImageFile" class="form-control" id="inputGroupFile01" />
+                            <label id="fileNameLabel" class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                        </div>
+                    </div>
+                    <div>
+                        <input id="bloghtml" asp-for="Content" name="Content" type="hidden">
+                    </div>
+
+                    <div>
+                        Content
+                        <textarea contenteditable="true" name="editor" id="editor">
+                This is my textarea to be replaced with CKEditor.
+            </textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <input id="userId" asp-for="UserId" class="form-control" type="hidden" />
+                        <input id="userName" asp-for="UserName" class="form-control" type="hidden" />
+                        <input id="userPicPath" asp-for="UserPicPath" class="form-control" type="hidden" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Tags" class="control-label"></label>
+                        <input asp-for="Tags" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <input id="btnsubmit" type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Initialize Quill editor -->
+<script>
+
+    function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+    //var Font = Quill.import('formats/font');
+    //// We do not add Aref Ruqaa since it is the default
+    //Font.whitelist = ['mirza', 'roboto'];
+    //Quill.register(Font, true);
+
+    //var toolbarOptions = [
+    //    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+    //    ['blockquote', 'image', 'code-block'],
+
+    //    [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+    //    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+    //    [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+    //    [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
+    //    [{ 'direction': 'rtl' }],                         // text direction
+
+    //    [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+    //    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+    //    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+    //    [{ 'font': [] }],
+    //    [{ 'align': [] }],
+
+    //    ['clean']                                         // remove formatting button
+    //];
+    //var quill = new Quill('#editor-new', {
+    //    modules: {
+    //        toolbar: toolbarOptions
+    //    },
+    //    placeholder: 'Compose an epic...',
+    //    theme: 'snow'
+    //});
+
+    onsubmit = function () {
+        debugger;
+
+        if ($("#Title").val() == "") {
+            alert("Please select a Title for this blog");
+            return false;
+        }
+        if ($("#Category").val() == "0") {
+            alert("Please select a Category for this blog");
+            return false;
+        }
+        if (document.getElementById("inputGroupFile01").value == "") {
+            alert("Please upload an image for the blog");
+            return false;
+        }
+
+
+
+        //for old quill js
+        var blogHTML = $('#bloghtml')[0];
+
+        //new CK Editor
+        var data = CKEDITOR.instances.editor.getData();
+        blogHTML.value = data
+        console.log(blogHTML);
+
+        return true;
+    };
+    $(document).ready(function () {
+        
+        CKEDITOR.replace('editor');
+        $("#inputGroupFile01").on('change', function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).next(".custom-file-label").html(fileName);
+        });
+
+    });
+
+</script>

@@ -1,0 +1,23 @@
+﻿@model IEnumerable<Blog.Entities.CommentEntity>
+
+
+
+<ul class="comment-list">
+    @foreach (var item in Model)
+    {
+        <li class="comment">
+            <div class="vcard">
+                <img src="/user-images/@item.User.UserPicPath" alt="Image placeholder">
+            </div>
+            <div class="comment-body">
+                <h3>@Html.DisplayFor(modelItem => item.User.UserName)</h3>
+                <div class="meta">@Html.DisplayFor(modelItem => item.Created)</div>
+                <p>
+                    @Html.DisplayFor(modelItem => item.CommentText)
+                </p>
+                @*<p><a href="#" class="reply rounded">Reply</a></p>*@
+            </div>
+        </li>
+    }
+</ul>
+<!-- commnets-area -->

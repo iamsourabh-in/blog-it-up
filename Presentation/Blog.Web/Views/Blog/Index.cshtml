@@ -1,0 +1,235 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model Blog.Entities.BlogEntity;
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div class="site-cover site-cover-sm same-height overlay single-page" style="background-image: url('/blog-images/@Model.BlogImage');">
+    <div class="container">
+        <div class="row same-height justify-content-center">
+            <div class="col-md-12 col-lg-10">
+                <div class="post-entry text-center">
+                    <span href="/blog/category/@Model.Category" class="post-category text-white bg-success mb-3">@Model.Category</span>
+                    <h1 class="mb-4"><a href="#">@Model.Title</a></h1>
+                    <div class="post-meta align-items-center text-center">
+                        <figure class="author-figure mb-0 mr-3 d-inline-block"><img src="/user-images/@Model.CreatedBy.UserPicPath" alt="Image" class="img-fluid"></figure>
+                        <span class="d-inline-block mt-1">By @Model.CreatedBy.UserName</span>
+                        <span>&nbsp;-&nbsp; @Model.CreatedOn.ToString("dddd, dd MMMM yyyy")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<section class="site-section py-lg">
+    <div class="container">
+
+        <div class="row blog-entries element-animate">
+
+            <div class="col-md-12 col-lg-8 main-content">
+
+                <div class="post-content-body">
+                    @Html.Raw(Model.Content)
+                </div>
+                <div style="float:left;">
+                    @{
+                        var userId = "";
+                        foreach (var cookie in HttpContextAccessor.HttpContext.Request.Cookies)
+                        {
+                            if (@cookie.Key == "Id" && @cookie.Value != null)
+                            {
+                                userId = @cookie.Value;
+                            }
+                        }
+                        @if (Model.Like.Count > 0)
+                        {
+                            bool found = false;
+
+                            @foreach (var like in Model.Like)
+                            {
+                                @if (like.UserId == userId)
+                                {
+                                    <div onclick="UnlikeBlog('@Model.Id')" class="footer-icon-red">
+                                        <ion-icon style="color:red" name="heart"></ion-icon>@Model.Like.Count()
+                                    </div>
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if (!found)
+                            {
+                                <div onclick="LikeBlog('@Model.Id')" class="footer-icon">
+                                    <ion-icon name="heart"></ion-icon>@Model.Like.Count()
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div onclick="LikeBlog('@Model.Id')" class="footer-icon">
+                                <ion-icon name="heart"></ion-icon>@Model.Like.Count()
+                            </div>
+                        }
+                    }
+                    <div class="footer-icon">
+                        <ion-icon name="chatbubbles-outline"></ion-icon>@Model.Comments.Count()
+                    </div>
+                    <div class="footer-icon">
+                        <ion-icon name="eye-outline"></ion-icon>@Model.ViewCount
+                    </div>
+                </div>
+
+                <div class="pt-5">
+                    <p>
+                        Categories:  <a href="/blog/category/@Model.Category.Trim()">@Model.Category</a>
+                        <br />
+                        <br />
+
+                        Tags:
+                        @foreach (var tag in Model.Tags)
+                        {
+                            <a href="/blog/tag/@tag.Trim()">@tag.Trim()</a>
+                        }
+                    </p>
+                </div>
+                <div class="pt-5">
+                    <h3 class="mb-5">6 Comments</h3>
+                    @{ await Html.RenderPartialAsync("_ViewCommentPartial", @Model.Comments, null); }
+                    <!-- END comment-list -->
+
+                    @{ await Html.RenderPartialAsync("_PostCommentPartial", new CommentViewModel(@Model.Id), null); }
+
+                </div>
+
+
+            </div>
+
+            <!-- END main-content -->
+
+            <div class="col-md-12 col-lg-4 sidebar">
+                <div class="sidebar-box search-form-wrap">
+                    <form action="#" class="search-form">
+                        <div class="form-group">
+                            <span class="icon fa fa-search"></span>
+                            <input type="text" class="form-control" id="s" placeholder="Type a keyword and hit enter">
+                        </div>
+                    </form>
+                </div>
+                <!-- END sidebar-box -->
+                <div class="sidebar-box">
+                    <div class="bio text-center">
+                        <img src="/user-images/@Model.CreatedBy.UserPicPath" alt="Image Placeholder" class="img-fluid mb-5">
+                        <div class="bio-body">
+                            <h2><a class="name" href="/user/profile/@Model.CreatedBy.UserId"><b>@Model.CreatedBy.UserName</b></a></h2>
+                            <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem facilis sunt repellendus excepturi beatae porro debitis voluptate nulla quo veniam fuga sit molestias minus.</p>
+                            <p><a href="/user/profile/@Model.CreatedBy.UserId" class="btn btn-primary btn-sm rounded px-4 py-2">Read my bio</a></p>
+                            <p class="social">
+                                <a href="#" class="p-2"><span class="fa fa-facebook"></span></a>
+                                <a href="#" class="p-2"><span class="fa fa-twitter"></span></a>
+                                <a href="#" class="p-2"><span class="fa fa-instagram"></span></a>
+                                <a href="#" class="p-2"><span class="fa fa-youtube-play"></span></a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- END sidebar-box -->
+
+                <script>
+
+                    $(document).ready(function () {
+                        $("#poppst").load("/Blog/GetPopularBlogs?id=3")
+                    });
+                </script>
+                <div id="poppst">
+
+                </div>
+
+                <!-- END sidebar-box -->
+
+                <script>
+                    $(document).ready(function () {
+                        $("#categoryDiv").load("/Blog/GetBlogsCountByCategory")
+                    });
+                </script>
+                <div id="categoryDiv">
+
+                </div>
+                <!-- END sidebar-box -->
+
+                <div class="sidebar-box">
+                    <h3 class="heading">Tags</h3>
+                    <ul class="tags">
+                        @foreach (var tag in Model.Tags)
+                        {
+
+                            <li>  <a href="/blog/tag/@tag.Trim()">@tag.Trim()</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <!-- END sidebar -->
+
+        </div>
+    </div>
+</section>
+
+
+<div class="site-section bg-light">
+    <div class="container">
+
+        <div class="row mb-5">
+            <div class="col-12">
+                <h2>More Related Posts</h2>
+            </div>
+        </div>
+
+        <div class="row align-items-stretch retro-layout">
+
+            <div class="col-md-5 order-md-2">
+                <a href="single.html" class="hentry img-1 h-100 gradient" style="        background-image: url('/images/img_4.jpg');
+">
+                    <span class="post-category text-white bg-danger">Travel</span>
+                    <div class="text">
+                        <h2>The 20 Biggest Fintech Companies In America 2019</h2>
+                        <span>February 12, 2019</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-7">
+
+                <a href="single.html" class="hentry img-2 v-height mb30 gradient" style="background-image: url('/images/img_1.jpg');">
+                    <span class="post-category text-white bg-success">Nature</span>
+                    <div class="text text-sm">
+                        <h2>The 20 Biggest Fintech Companies In America 2019</h2>
+                        <span>February 12, 2019</span>
+                    </div>
+                </a>
+
+                <div class="two-col d-block d-md-flex">
+                    <a href="single.html" class="hentry v-height img-2 gradient" style="background-image: url('/images/img_2.jpg');">
+                        <span class="post-category text-white bg-primary">Sports</span>
+                        <div class="text text-sm">
+                            <h2>The 20 Biggest Fintech Companies In America 2019</h2>
+                            <span>February 12, 2019</span>
+                        </div>
+                    </a>
+                    <a href="single.html" class="hentry v-height img-2 ml-auto gradient" style="background-image: url('/images/img_3.jpg');">
+                        <span class="post-category text-white bg-warning">Lifestyle</span>
+                        <div class="text text-sm">
+                            <h2>The 20 Biggest Fintech Companies In America 2019</h2>
+                            <span>February 12, 2019</span>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+

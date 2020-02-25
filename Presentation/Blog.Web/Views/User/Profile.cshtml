@@ -1,0 +1,58 @@
+﻿@model Blog.Web.Models.UserViewModel
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<style>
+    .profile-image {
+        height: 200px;
+        width: 200px;
+        border-radius: 50%;
+        border: 2px solid Gray;
+    }
+
+    .data-row {
+        padding: 10px;
+        font-size: 2em;
+    }
+</style>
+<div class="slider">
+
+</div><!-- slider -->
+<section class="post-area">
+    <div class="container">
+
+        <div class="row">
+
+
+
+            <div class="col-lg-1 col-md-0"></div>
+            <div class="col-lg-12 col-md-12">
+
+                <div class="main-post">
+
+                    <div class="text-center">
+                        <img class="profile-image" src="/user-images/@Model.PicPath" />
+                    </div>
+
+                    <div class="pro-data text-center mt-5">
+                        <div class="data-row">
+                            <b> @Html.DisplayNameFor(model => model.Mobile):  </b>    @Html.DisplayFor(model => model.Mobile)
+                        </div>
+                        <div class="data-row">
+                            <b>  @Html.DisplayNameFor(model => model.FirstName):</b>  @Html.DisplayFor(model => model.FirstName)
+                        </div>
+                        <div class="data-row">
+                            <b>  @Html.DisplayNameFor(model => model.LastName) :  </b>    @Html.DisplayFor(model => model.LastName)
+                        </div>
+                        <div class="data-row">
+                            <b> @Html.DisplayNameFor(model => model.Email) : </b>  @Html.DisplayFor(model => model.Email)
+                        </div>
+                    </div>
+
+                </div><!-- main-post -->
+            </div><!-- col-lg-8 col-md-12 -->
+        </div><!-- row -->
+    </div><!-- container -->
+</section><!-- post-area -->

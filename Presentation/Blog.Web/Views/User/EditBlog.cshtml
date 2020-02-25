@@ -1,0 +1,28 @@
+﻿@model Blog.Entities.BlogEntity;
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<section class="site-section py-lg">
+    <div class="container">
+
+        <div class="row  blog-entries element-animate">
+
+            <div class="col-md-12 col-lg-8 main-content">
+
+
+                <div id="edit-blog-div" contenteditable="true"> @Html.Raw(Model.Content)</div>
+
+                <button class="btn-secondary" onclick="UpdateContent('@Model.Id')"> Save</button>
+            </div>
+        </div><!-- row -->
+    </div><!-- container -->
+</section>
+
+
+
+
+
+

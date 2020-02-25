@@ -1,0 +1,91 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model IEnumerable<Blog.Entities.BlogEntity>
+
+@{
+    ViewData["Title"] = "My Blogs";
+}
+<section class="blog-area section">
+    <div class="container">
+
+        <div class="row mt-5">
+            @{
+
+                @foreach (var blog in Model)
+                {
+
+                    <div class="col-lg-4 mb-4">
+                        <div class="entry2">
+                            <span style="float:right;position:absolute;right:0px;font-size: x-large;"><a asp-controller="user" asp-action="EditBlog" asp-route-id="@blog.Id"><ion-icon name="create-outline"></ion-icon></a></span>
+
+                            <a href="/blog/Slug/@blog.Slug"><img src="/blog-images/@blog.BlogImage" alt="Image" class="img-fluid rounded"></a>
+                            <div class="excerpt">
+                                <span class="post-category text-white bg-secondary mb-3">@blog.Category</span>
+
+                                <h2><a href="/blog/Slug/@blog.Slug"> @blog.Title</a></h2>
+                                <div class="post-meta align-items-center text-left clearfix">
+                                    <figure class="author-figure mb-0 mr-3 float-left"><img src="/user-images/@blog.CreatedBy.UserPicPath" alt="Image" class="img-fluid"></figure>
+                                    <span class="d-inline-block mt-1">By <a href="/user/@blog.CreatedBy.UserId">@blog.CreatedBy.UserName</a></span>
+                                    <span>&nbsp;-&nbsp; @blog.CreatedOn.ToString("dddd, dd MMMM yyyy")</span>
+                                </div>
+
+                                <p>@blog.SubTitle</p>
+                                <p><a  href="/blog/Slug/@blog.Slug">Read More</a></p>
+                                <div style="float:left;">
+                                    @{
+                                        var userId = "";
+                                        foreach (var cookie in HttpContextAccessor.HttpContext.Request.Cookies)
+                                        {
+                                            if (@cookie.Key == "Id" && @cookie.Value != null)
+                                            {
+                                                userId = @cookie.Value;
+                                            }
+                                        }
+                                        @if (@blog.Like.Count > 0)
+                                        {
+                                            bool found = false;
+
+                                            @foreach (var like in @blog.Like)
+                                            {
+                                                @if (like.UserId == userId)
+                                                {
+                                                    <div onclick="UnlikeBlog('@blog.Id')" class="footer-icon-red">
+                                                        <ion-icon style="color:red" name="heart"></ion-icon>@blog.Like.Count()
+                                                    </div>
+                                                    found = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (!found)
+                                            {
+                                                <div onclick="LikeBlog('@blog.Id')" class="footer-icon">
+                                                    <ion-icon name="heart"></ion-icon>@blog.Like.Count()
+                                                </div>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <div onclick="LikeBlog('@blog.Id')" class="footer-icon">
+                                                <ion-icon name="heart"></ion-icon>@blog.Like.Count()
+                                            </div>
+                                        }
+                                    }
+                                    <div class="footer-icon">
+                                        <ion-icon name="chatbubbles-outline"></ion-icon>@blog.Comments.Count()
+                                    </div>
+                                    <div class="footer-icon">
+                                        <ion-icon name="eye-outline"></ion-icon>@blog.ViewCount
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                }
+                <!-- col-lg-4 col-md-6 -->
+            }
+        </div><!-- row -->
+
+
+    </div><!-- container -->
+</section>

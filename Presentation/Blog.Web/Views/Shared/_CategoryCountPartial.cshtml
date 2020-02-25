@@ -1,0 +1,14 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+<div class="sidebar-box">
+    <h3 class="heading">Categories</h3>
+    <ul class="categories">
+        @foreach (var category in Model)
+        {
+            <li><a href="/blog/Category/@category.Id">@category.Id <span>(@category.Count)</span></a></li>
+        }
+    </ul>
+</div>
