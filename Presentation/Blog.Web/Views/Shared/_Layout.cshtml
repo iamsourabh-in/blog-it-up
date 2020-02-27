@@ -8,7 +8,7 @@
     <title>@ViewData["Title"] - Blog.Web</title>
 
     @*<link href="/css/quill.snow.css" rel="stylesheet" />
-    <script src="/js/quill.js"></script>*@
+        <script src="/js/quill.js"></script>*@
 
     <!-- Stylesheets -->
 
@@ -28,10 +28,19 @@
     <!-- Font -->
     <style type="text/css">
         .pro-pic {
+            height: 100px;
+            width: 100px;
+            border-radius: 50%;
+            margin-left: 50px;
+            margin-bottom: 14px;
+        }
+
+        .nav-pic {
             height: 25px;
             width: 25px;
             border-radius: 50%;
             margin-left: 10px;
+            margin-right: 10px;
         }
 
         .suggetions {
@@ -40,9 +49,10 @@
             width: 100%;
             background-color: white;
             opacity: 1;
-            top: 60px;
+            top: 55px;
             position: absolute;
             z-index: 99;
+            left: 0px;
             display: none;
         }
 
@@ -51,8 +61,7 @@
         }
 
         .suggest-item {
-            font-size: 12px;
-            font-size: 14px;
+            font-size: 15px;
             margin: 10px;
             display: block;
         }
@@ -64,7 +73,63 @@
         addon ::-webkit-scrollbar {
             display: none;
         }
+
+        .options {
+            margin-left: -30px;
+        }
     </style>
+    <style>
+        body {
+            font-family: "Lato", sans-serif;
+        }
+
+        .sidenav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+            .sidenav a {
+                padding: 8px 8px 8px 32px;
+                text-decoration: none;
+                font-size: 15px;
+                color: #818181;
+                display: block;
+                transition: 0.3s;
+            }
+
+                .sidenav a:hover {
+                    color: #f1f1f1;
+                }
+
+            .sidenav .closebtn {
+                position: absolute;
+                top: 0;
+                right: 25px;
+                font-size: 36px;
+                margin-left: 50px;
+            }
+
+        @@media screen and (max-height: 450px) {
+            .sidenav {
+                padding-top: 15px;
+            }
+
+                .sidenav a {
+                    font-size: 12px;
+                }
+        }
+    </style>
+
+
+
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -72,77 +137,57 @@
 </head>
 <body>
     <div class="site-wrap">
-        <div class="site-mobile-menu">
-            <div class="site-mobile-menu-header">
-                <div class="site-mobile-menu-close mt-3">
-                    <span class="icon-close2 js-menu-toggle"></span>
-                </div>
-            </div>
-            <div class="site-mobile-menu-body"></div>
+        <span style="font-size:30px;cursor:pointer;position:absolute;z-index: 999;" onclick="openNav()">&#9776;</span>
+
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            @{
+                var login = false;
+                var username = "";
+                var pic = "";
+                var userId = "";
+
+                if (HttpContextAccessor.HttpContext.User != null && HttpContextAccessor.HttpContext.User.HasClaim(c => c.Type == "Id"))
+                {
+                    username = HttpContextAccessor.HttpContext.User.Claims.Where(c => c.Type == "FullName").Select(c => c.Value).FirstOrDefault();
+                    pic = HttpContextAccessor.HttpContext.User.Claims.Where(c => c.Type == "PicPath").Select(c => c.Value).FirstOrDefault();
+                    userId = HttpContextAccessor.HttpContext.User.Claims.Where(c => c.Type == "Id").Select(c => c.Value).FirstOrDefault();
+                    login = true;
+                }
+
+
+                if (!login)
+                {
+
+                    <a asp-controller="Anonymus" asp-action="Register">Register</a>
+                    <a asp-controller="Anonymus" asp-action="Login">Login</a>
+                }
+                else
+                {
+                    <div style="padding: 10px;"><img class="pro-pic" src="/user-images/@pic"></div>
+                    <a asp-controller="User" asp-action="Profile" asp-route-id="@userId"><b> @username</b></a>
+                    <a asp-controller="Blog" asp-action="Create">Write a Blog</a>
+                    <a asp-controller="User" asp-action="MyBlogs" asp-route-id="@userId">My Blogs</a>
+                    <a style="color:red;" asp-controller="Auth" asp-action="Logout">Logout</a>
+
+                }
+            }
+            <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+            <a class="nav-link" asp-controller="Category" asp-action="All">Categories</a>
+            <a class="nav-link" asp-controller="Anonymus" asp-action="ContactUs">Contact Me</a>
+            <a class="nav-link" href="http://sourabhrustagi.s3-website.ap-south-1.amazonaws.com/#/home"> About Me </a>
         </div>
+        <script>
+            function openNav() {
+                document.getElementById("mySidenav").style.width = "250px";
+            }
+
+            function closeNav() {
+                document.getElementById("mySidenav").style.width = "0";
+            }
+        </script>
 
 
-        <header class="site-navbar" role="banner">
-            <div class="container-fluid">
-                <div class="row align-items-center">
-
-                    <div class="col-12 search-form-wrap js-search-form">
-                        <form method="get" action="#">
-                            <button class="search-btn" type="submit"><span class="icon-search"></span></button>
-
-                            <input class="src-input form-control" id="s" type="text" placeholder="Type of search">
-                            <div class="suggetions"><ul id="options" class="options"></ul> </div>
-                        </form>
-                    </div>
-
-                    <div class="col-2 site-logo">
-                        <a asp-area="" asp-controller="Home" asp-action="Index" class="logo">KHarvest @*<img src="~/images/logo.png" alt="Logo Image">*@</a>
-                    </div>
-
-                    <div class="col-10 text-right">
-                        <nav class="site-navigation" role="navigation">
-                            <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block mb-0">
-                                <li><a asp-controller="Home" asp-action="Index">Home</a></li>
-                                <li><a asp-controller="Category" asp-action="All">Categories</a></li>
-                                <li><a asp-controller="Anonymus" asp-action="ContactUs">Contact Me</a></li>
-                                <li><a href="http://sourabhrustagi.s3-website.ap-south-1.amazonaws.com/#/home"> About Me </a></li>
-                                @{
-                                    var login = false;
-                                    var username = "";
-                                    var pic = "";
-                                    var userId = "";
-
-                                    if (HttpContextAccessor.HttpContext.User != null && HttpContextAccessor.HttpContext.User.HasClaim(c => c.Type == "Id"))
-                                    {
-                                        username = HttpContextAccessor.HttpContext.User.Claims.Where(c => c.Type == "FullName").Select(c => c.Value).FirstOrDefault();
-                                        pic = HttpContextAccessor.HttpContext.User.Claims.Where(c => c.Type == "PicPath").Select(c => c.Value).FirstOrDefault();
-                                        userId = HttpContextAccessor.HttpContext.User.Claims.Where(c => c.Type == "Id").Select(c => c.Value).FirstOrDefault();
-                                        login = true;
-                                    }
-
-
-                                    if (!login)
-                                    {
-                                        <li><a asp-controller="Anonymus" asp-action="Register">Register</a></li>
-                                        <li><a asp-controller="Anonymus" asp-action="Login">Login</a></li>
-                                    }
-                                    else
-                                    {
-                                        <li><a asp-controller="Blog" asp-action="Create">Write a Blog</a></li>
-                                        <li><a asp-controller="User" asp-action="MyBlogs" asp-route-id="@userId">My Blogs</a></li>
-                                        <li style="color:red;"><a asp-controller="Auth" asp-action="Logout">Logout</a></li>
-                                        <li><img class="pro-pic" src="/user-images/@pic"><a asp-controller="User" asp-action="Profile" asp-route-id="@userId">Welcome <b> @username</b></a></li>
-                                    }
-                                }
-                                <li class="d-none d-lg-inline-block"><a href="#" class="js-search-toggle"><span class="icon-search"></span></a></li>
-                            </ul>
-                        </nav>
-                        <a href="#" class="site-menu-toggle js-menu-toggle text-black d-inline-block d-lg-none"><span class="icon-menu h3"></span></a>
-                    </div>
-                </div>
-
-            </div>
-        </header>
 
         @RenderBody()
 
@@ -227,7 +272,7 @@
     <script src="/js/bootstrap-datepicker.min.js"></script>
     <script src="/js/aos.js"></script>
     <script src="/js/main.js"></script>
-    <script src="~/js/ckeditor/ckeditor.js"></script>
+    <script src="/js/ckeditor/ckeditor.js"></script>
 
     <script>
         var url = window.location.protocol + '//' + window.location.host + '/' + 'api/Action/SearchBlog';
@@ -260,7 +305,7 @@
                     $.each(data, function (index, value) {
                         if (data.length > 0) {
                             $(".suggetions").show();
-                            $("#options").append("<li class='suggest-item'><img class='pro-pic'  src='/blog-images/" + value.blogImage + "'><a href='/blog/slug/" + value.slug + "' >" + value.title + "</a></li>");
+                            $("#options").append("<li class='suggest-item'><img class='nav-pic'  src='/blog-images/" + value.blogImage + "'><a href='/blog/slug/" + value.slug + "' >" + value.title + "</a></li>");
                         }
                         else {
                             $("#options").append("<li class='suggest-item'> No match found</li>");

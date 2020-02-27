@@ -43,7 +43,10 @@
                     <div>
                         <input id="bloghtml" asp-for="Content" name="Content" type="hidden">
                     </div>
-
+                    <div id="qrcodediv" class="form-group">
+                        <div id="qrcode"></div>
+                    </div>
+                    <a id="qrtoggler">hide</a> the Qrcode to type the content on mobile scan the qrcode.
                     <div>
                         Content
                         <textarea contenteditable="true" name="editor" id="editor">
@@ -68,8 +71,9 @@
         </div>
     </div>
 </div>
-
-
+<script src="/js/signalr/dist/browser/signalr.js"></script>
+<script src="/js/chat.js"></script>
+<script src="/js/qrcode/qrcode.js"></script>
 
 <!-- Initialize Quill editor -->
 <script>
@@ -89,37 +93,6 @@
         }
         return "";
     }
-    //var Font = Quill.import('formats/font');
-    //// We do not add Aref Ruqaa since it is the default
-    //Font.whitelist = ['mirza', 'roboto'];
-    //Quill.register(Font, true);
-
-    //var toolbarOptions = [
-    //    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-    //    ['blockquote', 'image', 'code-block'],
-
-    //    [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-    //    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-    //    [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
-    //    [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
-    //    [{ 'direction': 'rtl' }],                         // text direction
-
-    //    [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-    //    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-
-    //    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-    //    [{ 'font': [] }],
-    //    [{ 'align': [] }],
-
-    //    ['clean']                                         // remove formatting button
-    //];
-    //var quill = new Quill('#editor-new', {
-    //    modules: {
-    //        toolbar: toolbarOptions
-    //    },
-    //    placeholder: 'Compose an epic...',
-    //    theme: 'snow'
-    //});
 
     onsubmit = function () {
         debugger;
@@ -150,7 +123,7 @@
         return true;
     };
     $(document).ready(function () {
-        
+
         CKEDITOR.replace('editor');
         $("#inputGroupFile01").on('change', function () {
             var fileName = $(this).val().split("\\").pop();
@@ -159,4 +132,35 @@
 
     });
 
+</script>
+<script type="text/javascript">
+    var qcodediv = $("#qrcodediv");
+    var qrtoggler = $("#qrtoggler");
+
+
+    qrtoggler.on("click", function () {
+        if (qrtoggler[0].innerHTML == 'hide') {
+            qcodediv.hide();
+            qrtoggler.html('show')
+        }
+        else {
+            qcodediv.show();
+            qrtoggler.html('hide')
+        }
+    });
+
+    var token = window.getCookie("Token");
+
+    var creatorURL = window.location.protocol + '//' + window.location.host + "/anonymus/Creator?id=" + token;
+    var qrcode = new QRCode("qrcode", {
+        text: creatorURL,
+        width: 240,
+        height: 240,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    });
+    //qrcode.clear(); // clear the code.
+    //qrcode.makeCode(creatorURL);
+    //new QRCode(document.getElementById("qrcode"), "http://jindo.dev.naver.com/collie");
 </script>

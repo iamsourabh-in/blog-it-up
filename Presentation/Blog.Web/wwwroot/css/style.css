@@ -336,7 +336,7 @@ h1, h2, h3, h4, h5,
 .site-navbar {
     margin-bottom: 0px;
     z-index: 1999;
-    position: relative;
+    position: fixed;
     width: 100%;
     background: #fff;
 }

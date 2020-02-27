@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Creator";
+}
+
+<h1>Creator</h1>
+
+
+
+<div class="container">
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-12">User : @ViewBag.Name</div>
+    </div>
+    <div class="row">
+        <div class="col-12 h-100"><div type="text" id="userInput" contenteditable="true" style="min-height:300px;width:100%;border:2px solid gray"></div></div>
+    </div>
+</div>
+<script src="/js/signalr/dist/browser/signalr.js"></script>
+<script src="/js/blogsender.js"></script>

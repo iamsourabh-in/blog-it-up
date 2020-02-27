@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Blog.Web.Controllers
@@ -160,7 +161,9 @@ namespace Blog.Web.Controllers
                 Subject = claimsIdentity,
                 Expires = DateTime.UtcNow.AddMinutes(10),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-                IssuedAt = DateTime.Now
+                IssuedAt = DateTime.Now,
+                Issuer = "ask",
+                Audience = "ask"
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
@@ -196,6 +199,40 @@ namespace Blog.Web.Controllers
             model.StatusCode = statusCode.ToString();
             model.Message = message;
             return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Creator(string id)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            if (tokenHandler.CanReadToken(id))
+            {
+                var claimsPrip = ValidateToken(id);
+                ViewBag.Name = claimsPrip.Claims.Where(c => c.Type == "Email").FirstOrDefault().Value;
+
+            }
+            return View();
+
+        }
+
+        private ClaimsPrincipal ValidateToken(string jwtToken)
+        {
+            IdentityModelEventSource.ShowPII = true;
+
+            SecurityToken validatedToken;
+            TokenValidationParameters validationParameters = new TokenValidationParameters();
+
+            validationParameters.ValidateLifetime = true;
+
+            validationParameters.ValidAudience = "ask".ToLower();
+            validationParameters.ValidIssuer = "ask".ToLower();
+
+            validationParameters.IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.Secret));
+
+            ClaimsPrincipal principal = new JwtSecurityTokenHandler().ValidateToken(jwtToken, validationParameters, out validatedToken);
+
+
+            return principal;
         }
 
     }
