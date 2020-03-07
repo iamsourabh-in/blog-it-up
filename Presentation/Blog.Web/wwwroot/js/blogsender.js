@@ -21,7 +21,7 @@ connection.start().then(function () {
 });
 
 document.getElementById("userInput").addEventListener("keyup", function (event) {
-    var message = event.target.innerText;
+    var message = $("#userInput").html();
     connection.invoke("SendMessage", message).catch(function (err) {
         alert(err.toString());
     });
