@@ -7,7 +7,7 @@ phases:
   build:
     commands:
       - dotnet restore
-      - dotnet build
+      - dotnet publish -o ./build-output
 artifacts:
   files:
-    - ./bin/Debug/netcoreapp3.0/*
+    - ./build-output/**/*
