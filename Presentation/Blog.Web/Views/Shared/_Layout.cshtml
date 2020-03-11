@@ -5,10 +5,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Blog.Web</title>
+    <meta name="mobile-web-app-capable" content="yes">
 
-    @*<link href="/css/quill.snow.css" rel="stylesheet" />
-        <script src="/js/quill.js"></script>*@
+    <title>@ViewData["Title"] - Blog.Web</title>
 
     <!-- Stylesheets -->
 
@@ -99,7 +98,7 @@
             .sidenav a {
                 padding: 8px 8px 8px 32px;
                 text-decoration: none;
-                font-size: 15px;
+                font-size: 16px;
                 color: #818181;
                 display: block;
                 transition: 0.3s;
@@ -112,7 +111,7 @@
             .sidenav .closebtn {
                 position: absolute;
                 top: 0;
-                right: 25px;
+                left: -65px;
                 font-size: 36px;
                 margin-left: 50px;
             }
@@ -137,11 +136,20 @@
 </head>
 <body>
     <div class="site-wrap">
-        <span style="font-size:30px;cursor:pointer;position:absolute;z-index: 999;" onclick="openNav()">&#9776;</span>
+        <span style="font-size: 30px;
+    cursor: pointer;
+    position: fixed;
+    z-index: 999;
+    background-color: gray;
+    color: black;
+    width: 40px;
+    border-radius: 0px 10px 10px 0px;" onclick="openNav()">&#9776;</span>
 
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
             @{
+                String u_image_main_URL = "https://srx-user-images.s3-eu-west-1.amazonaws.com/";
+
                 var login = false;
                 var username = "";
                 var pic = "";
@@ -158,22 +166,24 @@
 
                 if (!login)
                 {
-
-                    <a asp-controller="Anonymus" asp-action="Register">Register</a>
+                    <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
                     <a asp-controller="Anonymus" asp-action="Login">Login</a>
+                    <a asp-controller="Anonymus" asp-action="Register">Register</a>
                 }
                 else
                 {
-                    <div style="padding: 10px;"><img class="pro-pic" src="/user-images/@pic"></div>
-                    <a asp-controller="User" asp-action="Profile" asp-route-id="@userId"><b> @username</b></a>
-                    <a asp-controller="Blog" asp-action="Create">Write a Blog</a>
-                    <a asp-controller="User" asp-action="MyBlogs" asp-route-id="@userId">My Blogs</a>
+                    <div style="padding: 10px;"><img class="pro-pic" src="@(u_image_main_URL + pic)"></div>
+                    <a asp-controller="User" asp-action="Profile" asp-route-id="@userId"><b style="font-weight: 900;color:white;">@username</b></a>
                     <a style="color:red;" asp-controller="Auth" asp-action="Logout">Logout</a>
+                    <a asp-controller="Blog" asp-action="Create">Write a Blog</a>
+                    <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                    <a asp-controller="User" asp-action="MyBlogs" asp-route-id="@userId">My Blogs</a>
+                    <a class="nav-link" asp-controller="Category" asp-action="All">Categories</a>
 
                 }
             }
-            <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
-            <a class="nav-link" asp-controller="Category" asp-action="All">Categories</a>
+
+
             <a class="nav-link" asp-controller="Anonymus" asp-action="ContactUs">Contact Me</a>
             <a class="nav-link" href="http://sourabhrustagi.s3-website.ap-south-1.amazonaws.com/#/home"> About Me </a>
         </div>
@@ -225,15 +235,13 @@
                             <li><a href="#">Subscribes</a></li>
                         </ul>
                         <ul class="list-unstyled float-left">
-                            <li><a href="#">Travel</a></li>
-                            <li><a href="#">Lifestyle</a></li>
-                            <li><a href="#">Sports</a></li>
-                            <li><a href="#">Nature</a></li>
+                            <li><a href="/blog/Category/Travel">Travel</a></li>
+                            <li><a href="/blog/Category/Music">Music</a></li>
+                            <li><a href="/blog/Category/Technology">Technology</a></li>
+                            <li><a href="/blog/Category/Automobiles">Automobiles</a></li>
                         </ul>
                     </div>
                     <div class="col-md-4">
-
-
                         <div>
                             <h3 class="footer-heading mb-4">Connect With Us</h3>
                             <p>
@@ -305,7 +313,7 @@
                     $.each(data, function (index, value) {
                         if (data.length > 0) {
                             $(".suggetions").show();
-                            $("#options").append("<li class='suggest-item'><img class='nav-pic'  src='/blog-images/" + value.blogImage + "'><a href='/blog/slug/" + value.slug + "' >" + value.title + "</a></li>");
+                            $("#options").append("<li class='suggest-item'><img class='nav-pic'  src='https://srx-blog-images.s3-eu-west-1.amazonaws.com/" + value.blogImage + "'><a href='/blog/slug/" + value.slug + "' >" + value.title + "</a></li>");
                         }
                         else {
                             $("#options").append("<li class='suggest-item'> No match found</li>");

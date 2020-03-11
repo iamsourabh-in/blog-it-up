@@ -5,9 +5,10 @@
 <ul class="comment-list">
     @foreach (var item in Model)
     {
+        String u_image_main_URL = "https://srx-user-images.s3-eu-west-1.amazonaws.com/";
         <li class="comment">
             <div class="vcard">
-                <img src="/user-images/@item.User.UserPicPath" alt="Image placeholder">
+                <img src="@(u_image_main_URL +item.User.UserPicPath)" alt="Image placeholder">
             </div>
             <div class="comment-body">
                 <h3>@Html.DisplayFor(modelItem => item.User.UserName)</h3>

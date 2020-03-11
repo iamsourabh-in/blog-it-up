@@ -38,6 +38,7 @@ namespace Blog.Web.Models
 
         public string Content { get; set; }
 
+        [Required]
         public string Tags { get; set; }
 
         public DateTime CreatedOn { get; set; }

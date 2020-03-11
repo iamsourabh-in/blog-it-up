@@ -1,0 +1,105 @@
+2020-03-09T21:37:10.8266455+05:30  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-03-09T21:37:10.8435207+05:30  [INF] Hosting environment: "Development" (c3307c92)
+2020-03-09T21:37:10.8437113+05:30  [INF] Content root path: "E:\ME\repo\BlogItUp\Presentation\Blog.Web" (b5d60022)
+2020-03-09T21:37:31.3659695+05:30  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-03-09T21:37:31.3788853+05:30  [INF] Hosting environment: "Development" (c3307c92)
+2020-03-09T21:37:31.3793571+05:30  [INF] Content root path: "E:\ME\repo\BlogItUp\Presentation\Blog.Web" (b5d60022)
+2020-03-09T21:46:22.0646745+05:30  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-03-09T21:46:22.0805520+05:30  [INF] Hosting environment: "Development" (c3307c92)
+2020-03-09T21:46:22.0808254+05:30  [INF] Content root path: "E:\ME\repo\BlogItUp\Presentation\Blog.Web" (b5d60022)
+2020-03-09T22:25:39.2982239+05:30 80000093-0003-ff00-b63f-84710c7967bb [ERR] Connection ID ""18374686494167138450"", Request ID ""80000093-0003-ff00-b63f-84710c7967bb"": An unhandled exception was thrown by the application. (bf316047)
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Blog.Web.Middleware.APIRequestMorpher.InvokeAsync(HttpContext context, RequestDelegate next) in E:\ME\repo\BlogItUp\Presentation\Blog.Web\Middleware\APIRequestMorpher.cs:line 28
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.<>c__DisplayClass5_1.<<UseMiddlewareInterface>b__1>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Server.IIS.Core.IISHttpContextOfT`1.ProcessRequestAsync()
+2020-03-09T22:25:46.4284537+05:30 80000095-0003-ff00-b63f-84710c7967bb [ERR] Connection ID ""18374686494167138452"", Request ID ""80000095-0003-ff00-b63f-84710c7967bb"": An unhandled exception was thrown by the application. (bf316047)
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Blog.Web.Middleware.APIRequestMorpher.InvokeAsync(HttpContext context, RequestDelegate next) in E:\ME\repo\BlogItUp\Presentation\Blog.Web\Middleware\APIRequestMorpher.cs:line 28
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.<>c__DisplayClass5_1.<<UseMiddlewareInterface>b__1>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Server.IIS.Core.IISHttpContextOfT`1.ProcessRequestAsync()
+2020-03-09T22:26:06.9701504+05:30 80000346-0002-f800-b63f-84710c7967bb [ERR] Connection ID ""17870283331606676293"", Request ID ""80000346-0002-f800-b63f-84710c7967bb"": An unhandled exception was thrown by the application. (bf316047)
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Blog.Web.Middleware.APIRequestMorpher.InvokeAsync(HttpContext context, RequestDelegate next) in E:\ME\repo\BlogItUp\Presentation\Blog.Web\Middleware\APIRequestMorpher.cs:line 28
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.<>c__DisplayClass5_1.<<UseMiddlewareInterface>b__1>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Server.IIS.Core.IISHttpContextOfT`1.ProcessRequestAsync()
+2020-03-09T22:26:26.5517198+05:30 800001de-0005-eb00-b63f-84710c7967bb [ERR] Connection ID ""16933534621998514653"", Request ID ""800001de-0005-eb00-b63f-84710c7967bb"": An unhandled exception was thrown by the application. (bf316047)
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Blog.Web.Middleware.APIRequestMorpher.InvokeAsync(HttpContext context, RequestDelegate next) in E:\ME\repo\BlogItUp\Presentation\Blog.Web\Middleware\APIRequestMorpher.cs:line 28
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.<>c__DisplayClass5_1.<<UseMiddlewareInterface>b__1>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Server.IIS.Core.IISHttpContextOfT`1.ProcessRequestAsync()
+2020-03-09T22:26:54.3047566+05:30 8000004e-0001-fb00-b63f-84710c7967bb [ERR] Connection ID ""18086456109425492045"", Request ID ""8000004e-0001-fb00-b63f-84710c7967bb"": An unhandled exception was thrown by the application. (bf316047)
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Blog.Web.Middleware.APIRequestMorpher.InvokeAsync(HttpContext context, RequestDelegate next) in E:\ME\repo\BlogItUp\Presentation\Blog.Web\Middleware\APIRequestMorpher.cs:line 28
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.<>c__DisplayClass5_1.<<UseMiddlewareInterface>b__1>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Server.IIS.Core.IISHttpContextOfT`1.ProcessRequestAsync()
+2020-03-09T22:29:31.9161554+05:30  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-03-09T22:29:31.9275244+05:30  [INF] Hosting environment: "Development" (c3307c92)
+2020-03-09T22:29:31.9278022+05:30  [INF] Content root path: "E:\ME\repo\BlogItUp\Presentation\Blog.Web" (b5d60022)
+2020-03-09T22:29:49.3720895+05:30 8000034c-0003-fd00-b63f-84710c7967bb [ERR] Connection ID ""18230571306091283275"", Request ID ""8000034c-0003-fd00-b63f-84710c7967bb"": An unhandled exception was thrown by the application. (bf316047)
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Blog.Web.Middleware.APIRequestMorpher.InvokeAsync(HttpContext context, RequestDelegate next) in E:\ME\repo\BlogItUp\Presentation\Blog.Web\Middleware\APIRequestMorpher.cs:line 28
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.<>c__DisplayClass5_1.<<UseMiddlewareInterface>b__1>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Server.IIS.Core.IISHttpContextOfT`1.ProcessRequestAsync()
+2020-03-09T22:30:03.2654054+05:30 8000034c-0002-f800-b63f-84710c7967bb [ERR] Connection ID ""17870283331606676299"", Request ID ""8000034c-0002-f800-b63f-84710c7967bb"": An unhandled exception was thrown by the application. (bf316047)
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Blog.Web.Middleware.APIRequestMorpher.InvokeAsync(HttpContext context, RequestDelegate next) in E:\ME\repo\BlogItUp\Presentation\Blog.Web\Middleware\APIRequestMorpher.cs:line 28
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.<>c__DisplayClass5_1.<<UseMiddlewareInterface>b__1>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Server.IIS.Core.IISHttpContextOfT`1.ProcessRequestAsync()
+2020-03-09T22:31:31.8019410+05:30 8000009f-0003-ff00-b63f-84710c7967bb [ERR] Connection ID ""18374686494167138462"", Request ID ""8000009f-0003-ff00-b63f-84710c7967bb"": An unhandled exception was thrown by the application. (bf316047)
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Blog.Web.Middleware.APIRequestMorpher.InvokeAsync(HttpContext context, RequestDelegate next) in E:\ME\repo\BlogItUp\Presentation\Blog.Web\Middleware\APIRequestMorpher.cs:line 28
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.<>c__DisplayClass5_1.<<UseMiddlewareInterface>b__1>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Server.IIS.Core.IISHttpContextOfT`1.ProcessRequestAsync()
+2020-03-09T22:32:38.5463831+05:30 8000000c-0007-f900-b63f-84710c7967bb [ERR] Connection ID ""17942340947119439883"", Request ID ""8000000c-0007-f900-b63f-84710c7967bb"": An unhandled exception was thrown by the application. (bf316047)
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Blog.Web.Middleware.APIRequestMorpher.InvokeAsync(HttpContext context, RequestDelegate next) in E:\ME\repo\BlogItUp\Presentation\Blog.Web\Middleware\APIRequestMorpher.cs:line 28
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.<>c__DisplayClass5_1.<<UseMiddlewareInterface>b__1>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Server.IIS.Core.IISHttpContextOfT`1.ProcessRequestAsync()
+2020-03-09T22:34:11.4423223+05:30 800001fc-0005-eb00-b63f-84710c7967bb [ERR] Connection ID ""16933534621998514683"", Request ID ""800001fc-0005-eb00-b63f-84710c7967bb"": An unhandled exception was thrown by the application. (bf316047)
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Blog.Web.Middleware.APIRequestMorpher.InvokeAsync(HttpContext context, RequestDelegate next) in E:\ME\repo\BlogItUp\Presentation\Blog.Web\Middleware\APIRequestMorpher.cs:line 28
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.<>c__DisplayClass5_1.<<UseMiddlewareInterface>b__1>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Server.IIS.Core.IISHttpContextOfT`1.ProcessRequestAsync()
+2020-03-09T23:23:56.9059506+05:30  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2020-03-09T23:23:56.9200850+05:30  [INF] Hosting environment: "Development" (c3307c92)
+2020-03-09T23:23:56.9202393+05:30  [INF] Content root path: "E:\ME\repo\BlogItUp\Presentation\Blog.Web" (b5d60022)

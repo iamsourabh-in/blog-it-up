@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Amazon;
+using Amazon.S3;
+using Amazon.S3.Model;
 using Blog.Entities;
 using Blog.Persistence;
 using Blog.Services;
@@ -65,7 +68,7 @@ namespace Blog.Web.Controllers
             List<BlogEntity> entities = await _blogService.GetBlogswithTag(id);
             return View("Tags", entities);
         }
-        
+
         [CustomAuthFilter]
         [CacheResource]
         [HttpGet]
@@ -86,20 +89,34 @@ namespace Blog.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(BlogViewModel model)
         {
+            string BUCKET_NAME = "srx-blog-images";
             if (ModelState.IsValid)
             {
                 UserContextEntity user = new UserContextEntity() { UserId = model.UserId, UserName = model.UserName, UserPicPath = model.UserPicPath };
+                var blog = new Entities.BlogEntity();
                 string uniqueFileName = null;
 
                 if (model.ImageFile != null)
                 {
-                    string uploadFolder = Path.Combine(_hostingEnvironment.ContentRootPath, @"wwwroot\\blog-images");
+                    var response = new PutObjectResponse();
+                    var client = new AmazonS3Client(RegionEndpoint.EUWest1);
                     uniqueFileName = Guid.NewGuid().ToString() + '_' + model.ImageFile.FileName;
-                    string absFilePath = Path.Combine(uploadFolder, uniqueFileName);
-                    model.ImageFile.CopyTo(new FileStream(absFilePath, FileMode.Create));
+                    using (var stream = new MemoryStream())
+                    {
+                        model.ImageFile.CopyTo(stream);
+
+                        var request = new PutObjectRequest
+                        {
+                            BucketName = BUCKET_NAME,
+                            Key = uniqueFileName,
+                            InputStream = stream,
+                            ContentType = model.ImageFile.ContentType,
+                        };
+
+                        response = await client.PutObjectAsync(request);
+                    };
                 }
 
-                var blog = new Entities.BlogEntity();
                 blog.BlogImage = uniqueFileName;
                 blog.IsDeleted = false;
                 blog.Like = new List<UserContextEntity>();

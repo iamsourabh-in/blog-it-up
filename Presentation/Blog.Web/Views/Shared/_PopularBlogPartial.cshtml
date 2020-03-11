@@ -10,9 +10,10 @@
         <ul>
             @foreach (var blog in Model)
             {
+                String blog_image_main_URL = "https://srx-blog-images.s3-eu-west-1.amazonaws.com/";
                 <li>
-                    <a href="/blog-images/@blog.BlogImage">
-                        <img src="/blog-images/@blog.BlogImage" alt="Image placeholder" class="mr-4">
+                    <a href="@(blog_image_main_URL +blog.BlogImage)">
+                        <img src="@(blog_image_main_URL +blog.BlogImage)" alt="Image placeholder" class="mr-4">
                         <div class="text">
                             <h5>@blog.Title</h5>
                             <div class="post-meta">

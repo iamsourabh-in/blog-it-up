@@ -27,7 +27,7 @@
         $("#form-submit").on("click", function (event) {
             var commentText = $("#comText").val();
             var user = getContextUser();
-            var URL = "https://localhost:44356/api/Action/AddComment";
+            var URL = window.location.protocol + '//' + window.location.host + "/api/Action/AddComment";
             var comment = {
                 CommentText: commentText,
                 User: user,

@@ -6,6 +6,10 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Amazon;
+using Amazon.Runtime;
+using Amazon.S3;
+using Amazon.S3.Model;
 using AutoMapper;
 using Blog.Configuration.Core;
 using Blog.Entities;
@@ -53,31 +57,55 @@ namespace Blog.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                if (!await _userService.IsEmailAlreadyRegistered(model.Email))
+                string BUCKET_NAME = "srx-user-images";
+                if (ModelState.IsValid)
                 {
-
-                    string uniqueFileName = null;
-
-                    if (model.PicPath != null)
+                    if (!await _userService.IsEmailAlreadyRegistered(model.Email))
                     {
-                        string uploadFolder = Path.Combine(_hostingEnvironment.ContentRootPath, @"wwwroot\\user-images");
-                        uniqueFileName = Guid.NewGuid().ToString() + '_' + model.PicPath.FileName;
-                        string absFilePath = Path.Combine(uploadFolder, uniqueFileName);
-                        model.PicPath.CopyTo(new FileStream(absFilePath, FileMode.Create));
+
+                        string uniqueFileName = null;
+
+                        if (model.PicPath != null)
+                        {
+                            var response = new PutObjectResponse();
+                            var clientConfig = new AmazonS3Config();
+                            var client = new AmazonS3Client(RegionEndpoint.EUWest1);
+                            uniqueFileName = Guid.NewGuid().ToString() + '_' + model.PicPath.FileName;
+                            using (var stream = new MemoryStream())
+                            {
+                                model.PicPath.CopyTo(stream);
+
+                                var request = new PutObjectRequest
+                                {
+                                    BucketName = BUCKET_NAME,
+                                    Key = uniqueFileName,
+                                    InputStream = stream,
+                                    ContentType = model.PicPath.ContentType,
+                                };
+
+                                response = await client.PutObjectAsync(request);
+                            };
+                        }
+
+
+                        var entity = _mapper.Map<UserEntity>(model);
+                        entity.PicPath = uniqueFileName;
+                        await _userService.Create(entity);
+                        return RedirectToAction("Login");
                     }
-                    var entity = _mapper.Map<UserEntity>(model);
-                    entity.PicPath = uniqueFileName;
-                    await _userService.Create(entity);
-                    return RedirectToAction("Login");
                 }
+                else
+                {
+                    ViewBag.ErrorMessage = "Email Already Regsitered.";
+                }
+                return View(model);
             }
-            else
+            catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "Email Already Regsitered.";
+                throw ex;
             }
-            return View(model);
         }
         [HttpGet]
         public IActionResult ForgotPassword()

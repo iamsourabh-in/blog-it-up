@@ -31,10 +31,13 @@
             <div class="col-lg-12 col-md-12">
 
                 <div class="main-post">
+                    @{
+                        String u_image_main_URL = "https://srx-user-images.s3-eu-west-1.amazonaws.com/";
+                        <div class="text-center">
+                            <img class="profile-image" src="@(u_image_main_URL + Model.PicPath)" />
+                        </div>
 
-                    <div class="text-center">
-                        <img class="profile-image" src="/user-images/@Model.PicPath" />
-                    </div>
+                    }
 
                     <div class="pro-data text-center mt-5">
                         <div class="data-row">

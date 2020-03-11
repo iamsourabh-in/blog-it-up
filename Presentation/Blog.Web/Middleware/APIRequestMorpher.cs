@@ -19,7 +19,7 @@ namespace Blog.Web.Middleware
 
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
-            var isAPI = context.Request.Path.Value.Contains("api") && !context.Request.Path.Value.Contains("SearchBlog");
+            var isAPI = context.Request.Path.Value.Contains("/api/") && !context.Request.Path.Value.Contains("SearchBlog");
 
             if (isAPI)
             {

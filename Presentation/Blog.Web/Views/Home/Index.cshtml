@@ -15,8 +15,9 @@
 
             @foreach (var blog in Model.Popular)
             {
+                String blog_image_URL = "https://srx-blog-images.s3-eu-west-1.amazonaws.com/";
                 <div class="col-md-4" style="height:400px;">
-                    <a href="/blog/Slug/@blog.Slug" class="h-entry mb-30 mt-5 h-100 v-height gradient" style="background-image: url('/blog-images/@blog.BlogImage');">
+                    <a href="/blog/Slug/@blog.Slug" class="h-entry mb-30 mt-5 h-100 v-height gradient" style="background-image: url('@(blog_image_URL + blog.BlogImage)');">
 
                         <div class="text">
                             <h2>@blog.Title</h2>
@@ -43,6 +44,8 @@
         </div>
         <div class="row">
             @{
+                String u_image_main_URL = "https://srx-user-images.s3-eu-west-1.amazonaws.com/";
+                String blog_image_main_URL = "https://srx-blog-images.s3-eu-west-1.amazonaws.com/";
                 var userId = "";
                 foreach (var cookie in HttpContextAccessor.HttpContext.Request.Cookies)
                 {
@@ -57,13 +60,13 @@
 
                     <div class="col-lg-4 mb-5">
                         <div class="entry2 bg-light br-15">
-                            <a href="/blog/Slug/@blog.Slug"><img src="/blog-images/@blog.BlogImage" alt="Image" class="img-fluid rounded"></a>
+                            <a href="/blog/Slug/@blog.Slug"><img src="@(blog_image_main_URL + blog.BlogImage)" alt="Image" class="img-fluid rounded"></a>
                             <div class="excerpt">
                                 <span class="post-category text-white bg-secondary mb-3">@blog.Category</span>
 
                                 <h2><a href="/blog/Slug/@blog.Slug"> @blog.Title</a></h2>
                                 <div class="post-meta align-items-center text-left clearfix">
-                                    <figure class="author-figure mb-0 mr-3 float-left"><img src="/user-images/@blog.CreatedBy.UserPicPath" alt="Image" class="img-fluid"></figure>
+                                    <figure class="author-figure mb-0 mr-3 float-left"><img src="@(u_image_main_URL + blog.CreatedBy.UserPicPath)" alt="Image" class="img-fluid"></figure>
                                     <span class="d-inline-block mt-1">By <a href="/user/profile/@blog.CreatedBy.UserId">@blog.CreatedBy.UserName</a></span>
                                     <span>&nbsp;-&nbsp; @blog.CreatedOn.ToString("dddd, dd MMMM yyyy")</span>
                                 </div>

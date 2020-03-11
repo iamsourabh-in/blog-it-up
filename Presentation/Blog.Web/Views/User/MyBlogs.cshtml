@@ -9,7 +9,8 @@
 
         <div class="row">
             @{
-
+                String u_image_main_URL = "https://srx-user-images.s3-eu-west-1.amazonaws.com/";
+                String blog_image_main_URL = "https://srx-blog-images.s3-eu-west-1.amazonaws.com/";
                 @foreach (var blog in Model)
                 {
 
@@ -17,13 +18,13 @@
                         <div class="entry2">
                             <span style="float:right;position:absolute;right:0px;font-size: x-large;"><a asp-controller="user" asp-action="EditBlog" asp-route-id="@blog.Id"><ion-icon name="create-outline"></ion-icon></a></span>
 
-                            <a href="/blog/Slug/@blog.Slug"><img src="/blog-images/@blog.BlogImage" alt="Image" class="img-fluid rounded"></a>
+                            <a href="/blog/Slug/@blog.Slug"><img src="@(blog_image_main_URL +blog.BlogImage)" alt="Image" class="img-fluid rounded"></a>
                             <div class="excerpt">
                                 <span class="post-category text-white bg-secondary mb-3">@blog.Category</span>
 
                                 <h2><a href="/blog/Slug/@blog.Slug"> @blog.Title</a></h2>
                                 <div class="post-meta align-items-center text-left clearfix">
-                                    <figure class="author-figure mb-0 mr-3 float-left"><img src="/user-images/@blog.CreatedBy.UserPicPath" alt="Image" class="img-fluid"></figure>
+                                    <figure class="author-figure mb-0 mr-3 float-left"><img src="@(u_image_main_URL +blog.CreatedBy.UserPicPath)" alt="Image" class="img-fluid"></figure>
                                     <span class="d-inline-block mt-1">By <a href="/user/@blog.CreatedBy.UserId">@blog.CreatedBy.UserName</a></span>
                                     <span>&nbsp;-&nbsp; @blog.CreatedOn.ToString("dddd, dd MMMM yyyy")</span>
                                 </div>

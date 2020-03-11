@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Blog.Web.Middleware;
 using Microsoft.Extensions.Logging;
 using Blog.Web.Hubs;
+using Microsoft.AspNetCore.HttpOverrides;
+using System.Net;
 
 namespace Blog.Web
 {
@@ -68,6 +70,10 @@ namespace Blog.Web
                 options.AutomaticAuthentication = true;
             });
 
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));
+            });
 
             services.AddAuthentication(options =>
             {
@@ -108,6 +114,11 @@ namespace Blog.Web
                 // The default HSTS value is 30 days. 
                 app.UseHsts();
             }
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+
 
             loggerFactory.AddFile("Logs/myapp-{Date}.txt");
 
