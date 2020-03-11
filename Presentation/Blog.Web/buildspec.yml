@@ -10,4 +10,4 @@ phases:
       - dotnet build
 artifacts:
   files:
-    - .\bin\Debug\netcoreapp3.0\*
+    - ./bin/Debug/netcoreapp3.0/*
