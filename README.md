@@ -1,9 +1,10 @@
-Blog-it-up
+# Blog-it-up
 
-Its a 2020ish bogging webapp made using the power of .Net code , AWS.
+Its a 2020ish bogging webapp made using the power of .Net code , AWS.*
+
+## It Features
 
 
-It Features
 
 Cloud
 
@@ -16,3 +17,6 @@ Server
 
 Database
 Mongo.
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
